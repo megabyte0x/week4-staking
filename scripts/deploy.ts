@@ -1,22 +1,39 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const [deployer] = await ethers.getSigners();
+  const REWARD_AMOUNT = ethers.utils.parseEther("1000000");
 
-  const lockedAmount = ethers.utils.parseEther("1");
+  // const stakeContract = await ethers.getContractFactory("Stake");
+  // const stake = await stakeContract.deploy(REWARD_AMOUNT);
+  // await stake.deployed();
+  // console.log("Stake deployed to:", stake.address);
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  // const megabyteContract = await ethers.getContractFactory("Megabyte");
+  // const megabyte = await megabyteContract.deploy();
+  // await megabyte.deployed();
+  // console.log("Megabyte deployed to:", megabyte.address);
 
-  await lock.deployed();
+  // await stake.setTokenAddress(megabyte.address);
+  // console.log("Megabyte address set in Stake contract");
 
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  // console.log("Sleeping.....");
+  // await sleep(40000);
+
+  // await hre.run("verify:verify", {
+  //   address: megabyte.address,
+  // });
+
+  await hre.run("verify:verify", {
+    address: "0x12270c1cd08D1EE7f656B437bC43D4C08F58Ee67",
+    constructorArguments: [REWARD_AMOUNT],
+  });
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
