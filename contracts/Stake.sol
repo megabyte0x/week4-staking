@@ -18,7 +18,6 @@ contract Stake is Ownable {
     constructor(uint256 _rewardAmount) {
         rewardAmount = _rewardAmount;
         startOfStakeTimestamp = block.timestamp;
-        megabyteToken = new Megabyte();
     }
 
     mapping(address => uint256) stakedBalances;
@@ -28,6 +27,10 @@ contract Stake is Ownable {
         uint256 value;
         uint256 stakedTimestamp;
         uint256 rewardAmountClaimed;
+    }
+
+    function setTokenAddress(address _tokenAddress) external onlyOwner {
+        megabyteToken = Megabyte(_tokenAddress);
     }
 
     function stake() public payable {
@@ -54,13 +57,13 @@ contract Stake is Ownable {
         stakedBalances[msg.sender] += _value;
     }
 
-    function unstake() public {
+    function withdraw() public {
         uint256 stakedBalance = stakedBalances[msg.sender];
         require(stakedBalance > 0, "ERR:NS");
 
         stakedBalances[msg.sender] = 0;
 
-        megabyteToken.transferFrom(address(this), msg.sender, stakedBalance);
+        megabyteToken.transfer(msg.sender, stakedBalance);
 
         delete stakedDetails[msg.sender];
         delete stakedBalances[msg.sender];
@@ -92,7 +95,11 @@ contract Stake is Ownable {
     }
 
     function getBalanceOf() public view returns (uint256) {
-        return megabyteToken.balanceOf(msg.sender);
+        return stakedBalances[msg.sender];
+    }
+
+    function getTokenAddres() public view returns (address) {
+        return address(megabyteToken);
     }
 
     function calculateReward(address _user) internal view returns (uint256) {
