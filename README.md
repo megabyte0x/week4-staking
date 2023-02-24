@@ -1,13 +1,9 @@
-# Sample Hardhat Project
+# Staking Contract
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+This is a simple staking contract that allows users to stake their tokens and earn rewards. The contract is written in Solidity and is deployed on the Polygon blockchain.
 
-Try running some of the following tasks:
+Deployments:
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+Stake.sol: [Polygon Scan](https://mumbai.polygonscan.com/address/0x12270c1cd08D1EE7f656B437bC43D4C08F58Ee67#code)
+
+Megabyte.sol: [Polygon Scan](https://mumbai.polygonscan.com/address/0x9D57AbBf41b02959E390cbBC1d8F61D4d1cEa267#code)
